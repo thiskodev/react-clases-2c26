@@ -1,4 +1,6 @@
 import Asistentes from "./Asistentes";
+import Titulos from "./Titulos";
+import estilo from "./Titulos.module.css"
 
 const Bienvenida = () => {
   
@@ -10,7 +12,10 @@ const Bienvenida = () => {
 
   return (
     <div>
-      <h2>Bienvenidos</h2>
+      <Titulos>
+        <h2>Bienvenidos</h2>
+        <h3>Lista de Asistentes</h3>
+      </Titulos>
       <Asistentes personas={asistentes} />
     </div>
   );

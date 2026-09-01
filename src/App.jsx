@@ -1,10 +1,13 @@
 import Bienvenida from "./components/Bienvenida";
+import Layout from "./components/layouts/Layout";
 
 function App() {
   return (
     <>
-      <h1>Hola Mundo</h1>
-      <Bienvenida />
+      <Layout>
+        <h1>React Talento Tech</h1>
+        <Bienvenida />
+      </Layout>
     </>
   );
 }
