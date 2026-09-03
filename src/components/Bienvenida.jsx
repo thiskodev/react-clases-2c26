@@ -10,6 +10,10 @@ const Bienvenida = () => {
     { nombre: "Carlos Ruiz", tarea: "Backend Developer", emoji: "" },
   ];
 
+  const [numero, setNumero] = useState(0);
+  const [error, setError] = useState(false);
+  const [estaBien, setEstaBien] = useState(false);
+
   return (
     <div>
       <Titulos>

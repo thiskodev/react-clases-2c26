@@ -1,12 +1,13 @@
 import Bienvenida from "./components/Bienvenida";
 import Layout from "./components/layouts/Layout";
+import ItemListContainer from "./components/products/ItemListContainer";
 
-function App() {
+const App = () => {
   return (
     <>
       <Layout>
-        <h1>React Talento Tech</h1>
-        <Bienvenida />
+        <h1>La Futreria del Abuelo</h1>
+        <ItemListContainer />
       </Layout>
     </>
   );
