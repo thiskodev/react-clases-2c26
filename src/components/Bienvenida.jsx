@@ -11,13 +11,6 @@ const Bienvenida = () => {
     { nombre: "Carlos Ruiz", tarea: "Backend Developer", emoji: "" },
   ];
 
-  useEffect(() => {
-    console.log("El componente se ha montando")
-    return () => {
-      console.log("El componente se ha desmontado")
-    }
-  },[])
-
   return (
     <div>
       <Titulos>

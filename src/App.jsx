@@ -1,5 +1,5 @@
-import Bienvenida from "./components/Bienvenida";
 import Layout from "./components/layouts/Layout";
+import FormProductContainer from "./components/products/FormProductoContainer";
 import ItemListContainer from "./components/products/ItemListContainer";
 
 const App = () => {
@@ -7,7 +7,7 @@ const App = () => {
     <>
       <Layout>
         <h1>La Futreria del Abuelo</h1>
-        <Bienvenida/>
+        <FormProductContainer />
         <ItemListContainer />
       </Layout>
     </>
