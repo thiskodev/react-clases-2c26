@@ -2,7 +2,8 @@ const FormProducto = (
   { manejarCambio,
     manejarEnvio,
     manejarCambioImagen, 
-    datosForm 
+    datosForm, 
+    cargando
   }) => {
   return (
     <form onSubmit={manejarEnvio}>
@@ -42,7 +43,9 @@ const FormProducto = (
           onChange={manejarCambioImagen} 
         />
       </div>
-      <button type="submit">Guardar Producto</button>
+      <button type="submit" disabled={cargando}>
+        {cargando ? "Guardando..": "Guardar Producto"}
+      </button>
     </form>
   );
 };

@@ -8,6 +8,7 @@ const FormProductContainer = () => {
     stock: "", 
   });
   const [imagen, setImagen] = useState(null);
+  const [cargando, setCargando] = useState(false);
 
   const manejarCambio = (evento) => {
     const { name, value } = evento.target;
@@ -28,6 +29,9 @@ const FormProductContainer = () => {
       alert("Por favor, selecciona una imagen para el producto.");
       return;
     }
+
+    setCargando(true);
+
     // --- Logica para subir la imagen a Imgbb ---
     const apiKey = "4bc89d90e5ba2ca799b0f1339650ce18";
     const formData = new FormData();
@@ -64,6 +68,8 @@ const FormProductContainer = () => {
     } catch (error) {
       console.error("Error en el proceso de envío:", error);
       alert("Hubo un error al subir la imagen. Por favor, intentá de nuevo.");
+    } finally {
+      setCargando(false);
     }
   };
 
@@ -73,6 +79,7 @@ const FormProductContainer = () => {
       manejarEnvio={manejarEnvio}
       manejarCambioImagen={manejarCambioImagen}
       datosForm={datosForm}
+      cargando={cargando}
     />
   );
 };
