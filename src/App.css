@@ -1,0 +1,25 @@
+
+a {
+  color: inherit;
+  text-decoration: none;
+  transition: 0.25s;
+}
+
+button {
+  font-family: inherit;
+}
+
+hr {
+  border: 0;
+  border-top: 1px solid var(--clr-border);
+  margin: 2rem 0;
+  width: 100%;
+}
+
+/* Centrado global para títulos en las páginas */
+h1 {
+  text-align: center;
+  color: var(--clr-text);
+  margin-bottom: 2rem;
+  font-size: clamp(1rem, 4vw, 2.5rem);
+}

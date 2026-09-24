@@ -1,0 +1,201 @@
+/* Contenedor externo para fondo completo */
+.headerWrapper {
+  width: 100%;
+  background-color: var(--clr-surface, #12141c);
+  border-bottom: 1px solid var(--clr-border, #2a2d3a);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+/* Contenedor interno limitado a 1200px y centrado con distribución en 3 áreas */
+.headerContainer {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* Área Izquierda: Logotipo */
+.brandSection {
+  flex: 1;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.brandLogo {
+  color: var(--clr-text, #ffffff);
+  font-size: 1.3rem;
+  font-weight: 800;
+  text-decoration: none;
+  letter-spacing: 0.03em;
+  transition: color 0.2s ease;
+}
+
+.brandLogo:hover {
+  color: var(--clr-accent, #c9a84c);
+}
+
+/* Área Central: Menú de navegación */
+.centerSection {
+  display: flex;
+  justify-content: center;
+}
+
+/* Área Derecha: Controles de usuario */
+.rightSection {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 1.5rem;
+}
+
+.authList {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.saludoRegular {
+  font-size: 0.9rem;
+  color: var(--clr-text, #ffffff);
+  font-weight: 500;
+}
+
+/* ESTILO RECONSTRUIDO PARA TU BOTÓN DE PANEL ADMIN */
+.btnPanelAdmin {
+  font-size: 0.78rem;
+  color: #12141c;
+  background-color: var(--clr-accent, #c9a84c);
+  text-decoration: none;
+  font-weight: 700;
+  padding: 0.45rem 0.85rem;
+  border-radius: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  border: none;
+}
+
+.btnPanelAdmin:hover {
+  background-color: #e0bc58;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(201, 168, 76, 0.3);
+}
+
+.loginLink {
+  font-size: 1rem;
+  font-weight: 600;
+  text-transform: capitalize;
+  color: var(--clr-text, #ffffff);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.loginLink:hover {
+  color: var(--clr-accent, #c9a84c);
+}
+
+.btnLogout {
+  background: transparent;
+  border: 1px solid var(--clr-border, #2a2d3a);
+  color: var(--clr-muted, #8a8d9a);
+  padding: 0.45rem 0.8rem;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btnLogout:hover {
+  color: #ff3c5a;
+  border-color: rgba(255, 60, 90, 0.4);
+  background-color: rgba(255, 60, 90, 0.05);
+}
+
+/* ESTRUCTURA FIXEADA PARA EL CIRCULITO DEL CARRITO */
+.carritoLink {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+  color: var(--clr-text, #ffffff);
+  font-size: 0.9rem;
+}
+
+.carritoIconWrapper {
+  position: relative; /* Clave para que el badge flote con respecto a este contenedor */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+}
+
+.iconEmoji {
+  font-size: 1.25rem;
+}
+
+/* El círculo del indicador numérico ubicado arriba a la derecha */
+.badge {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background-color: var(--clr-accent, #c9a84c);
+  color: #12141c;
+  font-size: 0.7rem;
+  font-weight: 700;
+  min-width: 17px;
+  height: 17px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+.carritoTexto {
+  font-weight: 500;
+}
+
+.carritoLink:hover .carritoTexto {
+  color: var(--clr-accent, #c9a84c);
+}
+
+/* 📱 DISEÑO RESPONSIVE ADAPTATIVO PARA CELULARES */
+@media (max-width: 900px) {
+  .headerContainer {
+    flex-direction: column;
+    align-items: center;
+    padding: 1.25rem 1rem;
+    gap: 1.25rem;
+  }
+
+  .brandSection, .centerSection, .rightSection {
+    flex: none;
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+  }
+  
+  .rightSection {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .authList {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.85rem;
+  }
+}
