@@ -1,0 +1,105 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--clr-bg);
+  border: 1px solid var(--clr-border);
+  padding: 1.25rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  position: relative;
+}
+
+.card:hover {
+  border-color: var(--clr-text);
+}
+
+.imageLink {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  background-color: var(--clr-card-bg);
+  overflow: hidden;
+  margin-bottom: 1rem;
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: grayscale(100%);
+  transition: filter 0.3s ease, transform 0.3s ease;
+  padding: 1rem;
+}
+
+.card:hover .image {
+  filter: grayscale(0%);
+  transform: scale(1.03);
+}
+
+.titleLink {
+  text-decoration: none;
+  color: var(--clr-text);
+  margin-bottom: 0.5rem;
+}
+
+.title {
+  font-family: var(--font-serif);
+  font-size: 1.1rem;
+  line-height: 1.3;
+  color: var(--clr-text);
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.price {
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  color: var(--clr-muted);
+  margin-bottom: 1rem;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: auto;
+  padding-top: 1rem;
+  border-top: 1px solid var(--clr-border);
+}
+
+.counter {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border: 1px solid var(--clr-border);
+  padding: 0.25rem;
+}
+
+.counterBtn {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-size: 1rem;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.counterBtn:hover {
+  background-color: var(--clr-text);
+  color: var(--clr-bg);
+}
+
+.countText {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  min-width: 20px;
+  text-align: center;
+  margin: 0;
+}

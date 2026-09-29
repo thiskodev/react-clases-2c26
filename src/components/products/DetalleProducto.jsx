@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
+import styles from './DetalleProducto.module.css';
 
 const DetalleProducto = () => {
   const { id } = useParams();
@@ -8,7 +9,6 @@ const DetalleProducto = () => {
   const [cargando, setCargando] = useState(true);
   const [error, setError] = useState(null);
 
-  // Fetch que se ejecuta cada vez que cambie el ID
   useEffect(() => {
     setCargando(true);
     fetch(`https://fakestoreapi.com/products/${id}`)
@@ -21,17 +21,40 @@ const DetalleProducto = () => {
       .finally(() => setCargando(false));
   }, [id]);
 
-  if (cargando) return <p>Cargando detalle del producto...</p>;
-  if (error) return <p>Error: {error}</p>;
-  if (!producto) return <p>Producto no encontrado</p>;
+  if (cargando) {
+    return <div className={styles.statusContainer}>Cargando detalle del producto...</div>;
+  }
+  
+  if (error) {
+    return <div className={styles.statusContainer}>Error: {error}</div>;
+  }
+
+  if (!producto) {
+    return <div className={styles.statusContainer}>Producto no encontrado</div>;
+  }
 
   return (
-    <div className="producto-detalle">
-      <h2>{producto.title}</h2>
-      <img src={producto.image} alt={producto.title} width="200" />
-      <p><strong>Categoría:</strong> {producto.category}</p>
-      <p><strong>Precio:</strong> AR${producto.price}</p>
-      <p><strong>Descripción:</strong> {producto.description}</p>
+    <div className={styles.container}>
+      <Link to="/productos" className={styles.backLink}>
+        ← Volver a productos
+      </Link>
+
+      <div className={styles.grid}>
+        <div className={styles.imageWrapper}>
+          <img src={producto.image} alt={producto.title} className={styles.image} />
+        </div>
+
+        <div className={styles.infoSection}>
+          <span className={styles.categoryTag}>{producto.category}</span>
+          <h1 className={styles.title}>{producto.title}</h1>
+          <p className={styles.price}>AR${producto.price}</p>
+          
+          <h3 className={styles.descriptionTitle}>Descripción</h3>
+          <p className={styles.description}>{producto.description}</p>
+
+          <button className={styles.buyButton}>Agregar al carrito</button>
+        </div>
+      </div>
     </div>
   );
 };

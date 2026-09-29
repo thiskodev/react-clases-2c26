@@ -1,30 +1,37 @@
 import { useState } from "react";
 import { Link } from "react-router-dom"; 
 import BotonFavorito from "../BotonFavorito";
+import styles from "./Item.module.css";
 
-// Tenemos que traer el id como props para despues usarlo en el link
 const Item = ({ id, title, price, image }) => {
   const [contador, setContador] = useState(0);
 
   const incrementar = () => setContador(contador + 1);
-  const decrementar = () => { if (contador > 0) setContador(contador - 1)};
+  const decrementar = () => { if (contador > 0) setContador(contador - 1); };
 
   return (
-    <div>
-      <h2>
-        {title}: AR${price}
-      </h2>
-      <img src={image} alt={title} width="100" />
+    <article className={styles.card}>
+      {/* Clic en la image te lleva al detalle */}
+      <Link to={`/producto/${id}`} className={styles.imageLink}>
+        <img src={image} alt={title} className={styles.image} />
+      </Link>
       
-      <br />
-      <Link to={`/producto/${id}`}>Ver detalle</Link>
+      {/* Clic en el título / price te lleva al detalle */}
+      <Link to={`/producto/${id}`} className={styles.titleLink}>
+        <h2 className={styles.title}>{title}</h2>
+      </Link>
+      <p className={styles.price}>AR${price}</p>
       
-      <br />
-      <BotonFavorito />
-      <button onClick={decrementar}> - </button>
-      <p>{contador}</p>
-      <button onClick={incrementar}> + </button>
-    </div>
+      <div className={styles.actions}>
+        <BotonFavorito />
+        
+        <div className={styles.counter}>
+          <button onClick={decrementar} className={styles.counterBtn}>-</button>
+          <span className={styles.countText}>{contador}</span>
+          <button onClick={incrementar} className={styles.counterBtn}>+</button>
+        </div>
+      </div>
+    </article>
   );
 };
 

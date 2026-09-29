@@ -1,0 +1,13 @@
+.container {
+  width: 100%;
+}
+
+.statusMessage {
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  text-align: center;
+  padding: 4rem 1rem;
+  color: var(--clr-muted);
+}

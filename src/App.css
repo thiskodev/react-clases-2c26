@@ -1,25 +1,15 @@
-
-a {
-  color: inherit;
-  text-decoration: none;
-  transition: 0.25s;
-}
-
-button {
-  font-family: inherit;
-}
-
-hr {
-  border: 0;
-  border-top: 1px solid var(--clr-border);
-  margin: 2rem 0;
+.page-container {
   width: 100%;
+  animation: slideUpFade 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-/* Centrado global para títulos en las páginas */
-h1 {
-  text-align: center;
-  color: var(--clr-text);
-  margin-bottom: 2rem;
-  font-size: clamp(1rem, 4vw, 2.5rem);
+@keyframes slideUpFade {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

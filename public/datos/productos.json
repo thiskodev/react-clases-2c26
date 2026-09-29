@@ -4,7 +4,7 @@
     "nombre": "Camara Instantánea",
     "precio": 85000,
     "stock": 22,
-    "imagen": "/images/CamaraInstantanea.png"
+    "imagen": "https://i.ebayimg.com/images/g/21gAAOSwSzlnUdx2/s-l1600.webp"
   },
   {
     "id": 2,
