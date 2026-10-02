@@ -1,13 +1,28 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
+import { useCarrito } from '../../context/CarritoContext';
 import styles from './DetalleProducto.module.css';
 
 const DetalleProducto = () => {
   const { id } = useParams();
-  
+  const { agregarACarrito } = useCarrito();
+
   const [producto, setProducto] = useState(null);
   const [cargando, setCargando] = useState(true);
   const [error, setError] = useState(null);
+
+  const manejarAgregarACarrito = () => {
+    // Normalizamos los nombres que vienen de la API (title -> nombre, price -> precio)
+    const productoFormateado = {
+      id: producto.id,
+      nombre: producto.title,
+      precio: producto.price,
+      image: producto.image
+    };
+
+    // Pasamos el objeto con la estructura que espera el Context: { producto, cantidad }
+    agregarACarrito({ producto: productoFormateado, cantidad: 1 });
+  };
 
   useEffect(() => {
     setCargando(true);
@@ -21,17 +36,9 @@ const DetalleProducto = () => {
       .finally(() => setCargando(false));
   }, [id]);
 
-  if (cargando) {
-    return <div className={styles.statusContainer}>Cargando detalle del producto...</div>;
-  }
-  
-  if (error) {
-    return <div className={styles.statusContainer}>Error: {error}</div>;
-  }
-
-  if (!producto) {
-    return <div className={styles.statusContainer}>Producto no encontrado</div>;
-  }
+  if (cargando) return <div className={styles.statusContainer}>Cargando detalle del producto...</div>;
+  if (error) return <div className={styles.statusContainer}>Error: {error}</div>;
+  if (!producto) return <div className={styles.statusContainer}>Producto no encontrado</div>;
 
   return (
     <div className={styles.container}>
@@ -52,7 +59,9 @@ const DetalleProducto = () => {
           <h3 className={styles.descriptionTitle}>Descripción</h3>
           <p className={styles.description}>{producto.description}</p>
 
-          <button className={styles.buyButton}>Agregar al carrito</button>
+          <button className={styles.buyButton} onClick={manejarAgregarACarrito}>
+            Agregar al carrito
+          </button>
         </div>
       </div>
     </div>
