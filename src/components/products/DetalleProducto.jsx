@@ -31,8 +31,8 @@ const DetalleProducto = () => {
         if (!res.ok) throw new Error('No se encontró el producto');
         return res.json();
       })
-      .then((datos) => setProducto(datos))
-      .catch((err) => setError(err.message))
+      .then(datos => setProducto(datos))
+      .catch(err => setError(err.message))
       .finally(() => setCargando(false));
   }, [id]);
 
