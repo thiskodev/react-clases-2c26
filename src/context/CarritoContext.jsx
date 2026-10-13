@@ -1,7 +1,9 @@
 import { useState, useContext, createContext } from 'react';
 
+// Creamos el contexto
 export const CarritoContext = createContext();
 
+// Custom Hook
 export const useCarrito = () => {
   const context = useContext(CarritoContext);
   if (!context) {
@@ -10,6 +12,7 @@ export const useCarrito = () => {
   return context;
 };
 
+// Este es el proveedor 
 export const CarritoProvider = ({ children }) => {
   const [carrito, setCarrito] = useState([]);
 

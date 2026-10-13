@@ -1,0 +1,109 @@
+.container {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+}
+
+.header {
+  margin-bottom: 2.5rem;
+  text-align: center;
+}
+
+.subtitle {
+  color: var(--clr-muted);
+  font-size: 0.95rem;
+  margin-top: -1.75rem;
+}
+
+.sectionTitle {
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin-bottom: 0;
+}
+
+.statusText,
+.emptyText {
+  color: var(--clr-muted);
+  font-size: 0.95rem;
+  text-align: center;
+  padding: 3rem 0;
+}
+
+/* Mensaje de error */
+.errorMessage {
+  background-color: #fef2f2;
+  color: #991b1b;
+  border: 1px solid #fecaca;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+/* Lista de Cupones */
+.listSection {
+  margin-top: 1rem;
+}
+
+.listHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 1.25rem;
+}
+
+.badge {
+  background-color: var(--clr-card-bg);
+  border: 1px solid var(--clr-border);
+  color: var(--clr-muted);
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.15rem 0.55rem;
+  border-radius: 20px;
+}
+
+.grid {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: var(--clr-surface);
+  border: 1px solid var(--clr-border);
+  padding: 1.15rem 1.5rem;
+  border-radius: 10px;
+  transition: var(--transition-smooth);
+}
+
+.card:hover {
+  border-color: var(--clr-border-hover);
+  box-shadow: var(--shadow-sm);
+}
+
+.cardContent {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.code {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  font-size: 1rem;
+  color: var(--clr-text);
+}
+
+.discount {
+  background-color: var(--clr-accent);
+  color: #ffffff;
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 0.25rem 0.65rem;
+  border-radius: 6px;
+}
