@@ -6,7 +6,7 @@ import Productos from "./components/products/Productos";
 import Carrito from "./pages/Carrito";
 import Categorias from "./pages/Categorias";
 import './App.css';
-import Cupon from "./components/Cupon";
+import Panel from "./pages/Panel";
 
 const App = () => {
    return (
@@ -14,7 +14,7 @@ const App = () => {
       <Routes>
         <Route element={<Layout />}>
           <Route path='/' element={<Productos/>}/>
-          <Route path='/contacto' element={<Cupon/>}/>
+          <Route path='/panel' element={<Panel/>}/>
           <Route path='/productos' element={<ItemListContainer />} />
           <Route path="/producto/:id" element={<DetalleProducto/>} />
           <Route path="/:idCategoria" element={<Categorias/>} />

@@ -20,8 +20,8 @@ const Nav = () => {
           </Link>
         </li>
         <li>
-          <Link to="/contacto" className={styles.navLink}>
-            Contacto
+          <Link to="/panel" className={styles.navLink}>
+            Panel
           </Link>
           
         </li>

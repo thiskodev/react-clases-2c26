@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useCarrito } from '../../context/CarritoContext';
+import { db } from '../../firebase/config';
+import { doc, getDoc } from 'firebase/firestore';
 import styles from './DetalleProducto.module.css';
 
 const DetalleProducto = () => {
@@ -11,30 +13,33 @@ const DetalleProducto = () => {
   const [cargando, setCargando] = useState(true);
   const [error, setError] = useState(null);
 
-  const manejarAgregarACarrito = () => {
-    // Normalizamos los nombres que vienen de la API (title -> nombre, price -> precio)
-    const productoFormateado = {
-      id: producto.id,
-      nombre: producto.title,
-      precio: producto.price,
-      image: producto.image
+  useEffect(() => {
+    const fetchProducto = async () => {
+      setCargando(true);
+      try {
+        const docRef = doc(db, "productos", id);
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+          setProducto({ id: docSnap.id, ...docSnap.data() });
+        } else {
+          setError("El producto no existe");
+        }
+      } catch (err) {
+        console.error("Error al obtener producto:", err);
+        setError("Error al cargar el producto");
+      } finally {
+        setCargando(false);
+      }
     };
 
-    // Pasamos el objeto con la estructura que espera el Context: { producto, cantidad }
-    agregarACarrito({ producto: productoFormateado, cantidad: 1 });
-  };
-
-  useEffect(() => {
-    setCargando(true);
-    fetch(`https://fakestoreapi.com/products/${id}`)
-      .then((res) => {
-        if (!res.ok) throw new Error('No se encontró el producto');
-        return res.json();
-      })
-      .then(datos => setProducto(datos))
-      .catch(err => setError(err.message))
-      .finally(() => setCargando(false));
+    fetchProducto();
   }, [id]);
+
+  const manejarAgregarACarrito = () => {
+    // Al venir directo de Firestore, las propiedades ya se llaman: nombre, precio e imagen
+    agregarACarrito({ producto, cantidad: 1 });
+  };
 
   if (cargando) return <div className={styles.statusContainer}>Cargando detalle del producto...</div>;
   if (error) return <div className={styles.statusContainer}>Error: {error}</div>;
@@ -48,16 +53,16 @@ const DetalleProducto = () => {
 
       <div className={styles.grid}>
         <div className={styles.imageWrapper}>
-          <img src={producto.image} alt={producto.title} className={styles.image} />
+          <img src={producto.imagen} alt={producto.nombre} className={styles.image} />
         </div>
 
         <div className={styles.infoSection}>
-          <span className={styles.categoryTag}>{producto.category}</span>
-          <h1 className={styles.title}>{producto.title}</h1>
-          <p className={styles.price}>AR${producto.price}</p>
+          <span className={styles.categoryTag}>{producto.categoria}</span>
+          <h1 className={styles.title}>{producto.nombre}</h1>
+          <p className={styles.price}>AR${producto.precio}</p>
           
           <h3 className={styles.descriptionTitle}>Descripción</h3>
-          <p className={styles.description}>{producto.description}</p>
+          <p className={styles.description}>{producto.descripcion}</p>
 
           <button className={styles.buyButton} onClick={manejarAgregarACarrito}>
             Agregar al carrito
