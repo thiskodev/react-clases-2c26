@@ -1,0 +1,74 @@
+.opinionesContainer {
+  margin-top: 2.5rem;
+  padding-top: 2rem;
+  border-top: 1px solid #e5e7eb;
+}
+
+.titulo {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 1.5rem;
+}
+
+.cargando,
+.error,
+.sinOpiniones {
+  padding: 1rem 0;
+  color: #6b7280;
+  font-size: 0.95rem;
+}
+
+.error {
+  color: #ef4444;
+}
+
+.listaOpiniones {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.opinionCard {
+  background-color: #f9fafb;
+  border: 1px solid #f3f4f6;
+  border-radius: 8px;
+  padding: 1.25rem;
+  transition: box-shadow 0.2s ease;
+}
+
+.opinionCard:hover {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+.headerOpinion {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.clienteNombre {
+  font-weight: 600;
+  color: #111827;
+  font-size: 1rem;
+}
+
+.rating {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #f59e0b; /* Color dorado estrellas */
+  background-color: #fef3c7;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+}
+
+.comentario {
+  color: #4b5563;
+  line-height: 1.5;
+  font-size: 0.95rem;
+  margin: 0;
+}

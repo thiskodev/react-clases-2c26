@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { useCarrito } from '../../context/CarritoContext';
 import { db } from '../../firebase/config';
 import { doc, getDoc } from 'firebase/firestore';
+import Opiniones from './Opiniones'; // Importamos el componente de opiniones
 import styles from './DetalleProducto.module.css';
 
 const DetalleProducto = () => {
@@ -37,7 +38,6 @@ const DetalleProducto = () => {
   }, [id]);
 
   const manejarAgregarACarrito = () => {
-    // Al venir directo de Firestore, las propiedades ya se llaman: nombre, precio e imagen
     agregarACarrito({ producto, cantidad: 1 });
   };
 
@@ -60,7 +60,7 @@ const DetalleProducto = () => {
           <span className={styles.categoryTag}>{producto.categoria}</span>
           <h1 className={styles.title}>{producto.nombre}</h1>
           <p className={styles.price}>AR${producto.precio}</p>
-          
+
           <h3 className={styles.descriptionTitle}>Descripción</h3>
           <p className={styles.description}>{producto.descripcion}</p>
 
@@ -69,6 +69,11 @@ const DetalleProducto = () => {
           </button>
         </div>
       </div>
+
+      {/* Sección de Opiniones (Renderizado independiente de las opiniones) */}
+      <section className={styles.seccionOpiniones}>
+        <Opiniones productoId={id} />
+      </section>
     </div>
   );
 };
