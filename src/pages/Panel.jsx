@@ -3,9 +3,13 @@ import { db } from '../firebase/config';
 import { collection, getDocs, deleteDoc, doc } from 'firebase/firestore';
 import FormProductContainer from '../components/products/FormProductoContainer';
 import Cupon from '../components/Cupon';
+import styles from './Panel.module.css';
 
 const Panel = () => {
+  const [tabActivo, setTabActivo] = useState('productos');
   const [productos, setProductos] = useState([]);
+  const [productoAEditar, setProductoAEditar] = useState(null);
+  const [modalAbierto, setModalAbierto] = useState(false);
 
   // Carga inicial de productos desde Firestore
   useEffect(() => {
@@ -13,9 +17,7 @@ const Panel = () => {
       try {
         const productosRef = collection(db, "productos");
         const resp = await getDocs(productosRef);
-        setProductos(
-          resp.docs.map(doc => ({ ...doc.data(), id: doc.id }))
-        );
+        setProductos(resp.docs.map(doc => ({ ...doc.data(), id: doc.id })));
       } catch (error) {
         console.error("Error al obtener los productos:", error);
       }
@@ -24,51 +26,148 @@ const Panel = () => {
     fetchProductos();
   }, []);
 
-
   const eliminarProducto = async (id) => {
-    const confirmacion = window.confirm("¿Está seguro de que desea eliminar este producto?");
-    if (confirmacion) {
-      try {
-        const docRef = doc(db, "productos", id);
-        await deleteDoc(docRef);
-        // Actualizamos el estado local para quitarlo de la lista en la UI
-        setProductos(productos.filter((prod) => prod.id !== id));
-        alert("Producto eliminado.");
-      } catch (error) {
-        console.error("Error al eliminar el producto:", error);
-        alert("Hubo un error al intentar eliminar el producto.");
-      }
+    if (!window.confirm("¿Está seguro de que desea eliminar este producto?")) return;
+
+    try {
+      await deleteDoc(doc(db, "productos", id));
+      setProductos(prev => prev.filter((prod) => prod.id !== id));
+    } catch (error) {
+      console.error("Error al eliminar el producto:", error);
+      alert("Hubo un error al intentar eliminar el producto.");
     }
   };
 
+  const abrirModalAgregar = () => {
+    setProductoAEditar(null);
+    setModalAbierto(true);
+  };
+
+  const abrirModalEditar = (producto) => {
+    setProductoAEditar(producto);
+    setModalAbierto(true);
+  };
+
+  const cerrarModal = () => {
+    setProductoAEditar(null);
+    setModalAbierto(false);
+  };
+
+  const handleProductoGuardado = (productoGuardado, esEdicion) => {
+    if (esEdicion) {
+      setProductos(prev => prev.map(p => p.id === productoGuardado.id ? productoGuardado : p));
+    } else {
+      setProductos(prev => [...prev, productoGuardado]);
+    }
+    cerrarModal();
+  };
+
   return (
-    <>
-      <h2>Panel de Administración</h2>
-      {/* Formulario de producto */}
-      <FormProductContainer />
-      
-      <hr />
+    <div className={styles.container}>
+      <h2 className={styles.title}>Panel de Administración</h2>
 
-      {/* Listado de productos */}
-      <h3>Lista de Productos</h3>
-      <ul>
-        {productos.map(prod => (
-          <li key={prod.id} style={{ marginBottom: '8px' }}>
-            {prod.nombre} - ${prod.precio}
-            <button 
-              onClick={() => eliminarProducto(prod.id)} 
-              style={{ marginLeft: '10px' }}
-            >
-              Eliminar
+      {/* Navegación por pestañas */}
+      <div className={styles.tabs}>
+        <button 
+          className={`${styles.tab} ${tabActivo === 'productos' ? styles.activeTab : ''}`}
+          onClick={() => setTabActivo('productos')}
+        >
+          Productos
+        </button>
+        <button 
+          className={`${styles.tab} ${tabActivo === 'cupones' ? styles.activeTab : ''}`}
+          onClick={() => setTabActivo('cupones')}
+        >
+          Cupones
+        </button>
+      </div>
+
+      {/* Contenido según la pestaña activa */}
+      {tabActivo === 'productos' && (
+        <section>
+          <div className={styles.sectionHeader}>
+            <h3 className={styles.sectionTitle}>Listado de Productos</h3>
+            <button className={styles.btnPrimary} onClick={abrirModalAgregar}>
+              <span>+</span> Agregar Producto
             </button>
-          </li>
-        ))}
-      </ul>
+          </div>
 
-      <hr />
+          {productos.length === 0 ? (
+            <p className={styles.emptyText}>No hay productos cargados todavía.</p>
+          ) : (
+            <div className={styles.tableContainer}>
+              <table className={styles.table}>
+                <thead>
+                  <tr>
+                    <th>Imagen</th>
+                    <th>Nombre</th>
+                    <th>Categoría</th>
+                    <th>Precio</th>
+                    <th style={{ textAlign: 'right' }}>Acciones</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {productos.map(prod => (
+                    <tr key={prod.id}>
+                      <td>
+                        <img 
+                          src={prod.imagen || 'https://via.placeholder.com/50'} 
+                          alt={prod.nombre} 
+                          className={styles.productImg} 
+                        />
+                      </td>
+                      <td><strong>{prod.nombre}</strong></td>
+                      <td>{prod.categoria || '-'}</td>
+                      <td>${prod.precio}</td>
+                      <td style={{ textAlign: 'right' }}>
+                        <button 
+                          className={styles.btnOutline} 
+                          onClick={() => abrirModalEditar(prod)}
+                        >
+                          Editar
+                        </button>
+                        <button 
+                          className={styles.btnDanger} 
+                          onClick={() => eliminarProducto(prod.id)}
+                        >
+                          Eliminar
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </section>
+      )}
 
-      <Cupon />
-    </>
+      {tabActivo === 'cupones' && (
+        <section>
+          <Cupon />
+        </section>
+      )}
+
+      {/* Modal para agregar o editar producto */}
+      {modalAbierto && (
+        <div className={styles.modalOverlay} onClick={cerrarModal}>
+          <div className={styles.modalContent} onClick={e => e.stopPropagation()}>
+            <div className={styles.modalHeader}>
+              <h3 className={styles.sectionTitle}>
+                {productoAEditar ? 'Editar Producto' : 'Agregar Nuevo Producto'}
+              </h3>
+              <button className={styles.btnClose} onClick={cerrarModal}>✕</button>
+            </div>
+
+            <FormProductContainer 
+              productoAEditar={productoAEditar} 
+              setProductoAEditar={setProductoAEditar}
+              onProductoAgregado={(producto, esEdicion) => handleProductoGuardado(producto, esEdicion)} 
+            />
+          </div>
+        </div>
+      )}
+    </div>
   );
 };
 

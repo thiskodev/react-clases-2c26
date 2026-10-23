@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { collection, query, where, getDocs } from 'firebase/firestore';
+import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../firebase/config';
 import ItemList from '../components/products/ItemList';
 
@@ -13,14 +13,17 @@ const Categorias = () => {
     const fetchCategorias = async () => {
       try {
         setCargando(true);
-        const q = query(
-          collection(db, 'productos'), 
-          where('categoria', '==', idCategoria)
-        );
         
-        const querySnapshot = await getDocs(q);
+        // Obtenemos todos los productos
+        const querySnapshot = await getDocs(collection(db, 'productos'));
         const docs = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-        setProductos(docs);
+
+        // Filtramos en el cliente ignorando mayúsculas y minúsculas
+        const productosFiltrados = docs.filter(
+          prod => prod.categoria?.toLowerCase() === idCategoria?.toLowerCase()
+        );
+
+        setProductos(productosFiltrados);
       } catch (error) {
         console.error("Error al cargar los productos de la categoría:", error);
       } finally {
@@ -35,7 +38,7 @@ const Categorias = () => {
 
   return (
     <div>
-      <h1>Categoría: {idCategoria}</h1>
+      <h1 style={{ textTransform: 'capitalize' }}>{idCategoria}</h1>
       {cargando ? (
         <p>Cargando productos...</p>
       ) : productos.length === 0 ? (

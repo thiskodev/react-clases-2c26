@@ -1,72 +1,119 @@
-const FormProducto = (
-  { manejarCambio,
-    manejarEnvio,
-    manejarCambioImagen, 
-    datosForm, 
-    cargando
-  }) => {
+import styles from "./FormProducto.module.css";
+
+const FormProducto = ({
+  manejarCambio,
+  manejarEnvio,
+  manejarCambioImagen,
+  datosForm,
+  cargando,
+  esEdicion,
+  errores = {}
+}) => {
   return (
-    <form onSubmit={manejarEnvio}>
-      <h3>Nuevo Producto</h3>
-      <div>
-        <label>Nombre:</label>
-        <input 
+    <form className={styles.formulario} onSubmit={manejarEnvio} noValidate>
+      {/* Campo Nombre */}
+      <div className={styles.grupoInput}>
+        <label className={styles.label}>Nombre del producto</label>
+        <input
           name="nombre"
-          type="text" 
-          value={datosForm.nombre} 
-          onChange={manejarCambio} 
+          type="text"
+          placeholder="Ej: Remera Classic Black"
+          value={datosForm.nombre}
+          onChange={manejarCambio}
+          className={`${styles.input} ${errores.nombre ? styles.inputError : ""}`}
         />
+        {errores.nombre && <span className={styles.mensajeError}>{errores.nombre}</span>}
       </div>
-      <div>
-        <label>Precio:</label>
+
+      {/* Campo Precio */}
+      <div className={styles.grupoInput}>
+        <label className={styles.label}>Precio (AR$)</label>
         <input
           name="precio"
           type="number"
+          placeholder="Ej: 15000"
           value={datosForm.precio}
           onChange={manejarCambio}
+          className={`${styles.input} ${errores.precio ? styles.inputError : ""}`}
         />
+        {errores.precio && <span className={styles.mensajeError}>{errores.precio}</span>}
       </div>
-      <div>
-        <label>Stock:</label>
-        <input 
+
+      {/* Campo Stock */}
+      <div className={styles.grupoInput}>
+        <label className={styles.label}>Stock disponible</label>
+        <input
           name="stock"
-          type="number" 
-          value={datosForm.stock} 
-          onChange={manejarCambio} 
-        />
-      </div>
-      <div>
-        <label>Categoría:</label>
-        <select 
-          name="categoria" 
-          value={datosForm.categoria || ""} 
+          type="number"
+          placeholder="Ej: 10"
+          value={datosForm.stock}
           onChange={manejarCambio}
+          className={`${styles.input} ${errores.stock ? styles.inputError : ""}`}
+        />
+        {errores.stock && <span className={styles.mensajeError}>{errores.stock}</span>}
+      </div>
+
+      {/* Campo Categoría */}
+      <div className={styles.grupoInput}>
+        <label className={styles.label}>Categoría</label>
+        <select
+          name="categoria"
+          value={datosForm.categoria || ""}
+          onChange={manejarCambio}
+          className={`${styles.select} ${errores.categoria ? styles.inputError : ""}`}
         >
-          <option value="" disabled>Selecciona categoría</option>
+          <option value="" disabled>Selecciona una categoría</option>
           <option value="mujer">Mujer</option>
           <option value="hombre">Hombre</option>
           <option value="kids">Kids</option>
         </select>
+        {errores.categoria && <span className={styles.mensajeError}>{errores.categoria}</span>}
       </div>
-      <div>
-        <label>Descripcion:</label>
+
+      {/* Campo Descripción */}
+      <div className={styles.grupoInput}>
+        <label className={styles.label}>Descripción</label>
         <textarea
           name="descripcion"
-          type="text" 
-          value={datosForm.descripcion} 
-          onChange={manejarCambio} 
+          placeholder="Escribe los detalles del producto..."
+          value={datosForm.descripcion}
+          onChange={manejarCambio}
+          className={`${styles.textarea} ${errores.descripcion ? styles.inputError : ""}`}
         />
+        {errores.descripcion && <span className={styles.mensajeError}>{errores.descripcion}</span>}
       </div>
-      <div>
-        <label>Imagen:</label>
-        <input 
+
+      {/* Campo Imagen */}
+      <div className={styles.grupoInput}>
+        <label className={styles.label}>
+          {esEdicion ? "Cambiar Imagen (Opcional)" : "Imagen del Producto"}
+        </label>
+        <input
           name="imagen"
           type="file"
-          onChange={manejarCambioImagen} 
+          accept="image/*"
+          onChange={manejarCambioImagen}
+          className={`${styles.input} ${errores.imagen ? styles.inputError : ""}`}
         />
+        {errores.imagen && <span className={styles.mensajeError}>{errores.imagen}</span>}
+        
+        {/* Vista previa si ya existe una imagen en edición */}
+        {esEdicion && datosForm.imagen && (
+          <div>
+            <span style={{ fontSize: "0.75rem", color: "#666" }}>Imagen actual:</span>
+            <br />
+            <img src={datosForm.imagen} alt="Vista previa" className={styles.previewImagen} />
+          </div>
+        )}
       </div>
-      <button type="submit" disabled={cargando}>
-        {cargando ? "Guardando..": "Guardar Producto"}
+
+      {/* Boton dinamico */}
+      <button type="submit" className={styles.botonSubmit} disabled={cargando}>
+        {cargando
+          ? "Procesando..."
+          : esEdicion
+          ? "Guardar Cambios"
+          : "Crear Producto"}
       </button>
     </form>
   );

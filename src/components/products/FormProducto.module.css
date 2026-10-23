@@ -1,0 +1,91 @@
+.formulario {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  width: 100%;
+  font-family: system-ui, -apple-system, sans-serif;
+  color: #111;
+}
+
+.grupoInput {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #333;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.input,
+.select,
+.textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 0.95rem;
+  background-color: #fff;
+  color: #111;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  box-sizing: border-box;
+}
+
+.input:focus,
+.select:focus,
+.textarea:focus {
+  outline: none;
+  border-color: #000;
+}
+
+.textarea {
+  min-height: 90px;
+  resize: vertical;
+}
+
+.inputError {
+  border-color: #e53e3e !important;
+}
+
+.mensajeError {
+  color: #e53e3e;
+  font-size: 0.78rem;
+  font-weight: 500;
+  margin-top: 0.2rem;
+}
+
+.previewImagen {
+  width: 70px;
+  height: 70px;
+  object-fit: cover;
+  border-radius: 4px;
+  border: 1px solid #eee;
+  margin-top: 0.5rem;
+}
+
+.botonSubmit {
+  background-color: #000;
+  color: #fff;
+  border: 1px solid #000;
+  padding: 0.85rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: opacity 0.2s ease, background-color 0.2s ease;
+  margin-top: 0.5rem;
+}
+
+.botonSubmit:hover:not(:disabled) {
+  opacity: 0.85;
+}
+
+.botonSubmit:disabled {
+  background-color: #888;
+  border-color: #888;
+  cursor: not-allowed;
+}
