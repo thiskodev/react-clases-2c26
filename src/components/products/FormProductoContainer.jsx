@@ -113,24 +113,26 @@ const FormProductContainer = ({ productoAEditar, onProductoAgregado }) => {
         urlImagen = await subirImagenImgbb(imagen);
       }
 
-      // Nombre en español reemplazando a productoPayload
+      // Normalizar datos
       const datosAEnviar = {
         ...datosForm,
         precio: Number(datosForm.precio),
         stock: Number(datosForm.stock),
-        categoria: datosForm.categoria.trim().toLowerCase(), // Normalización
+        categoria: datosForm.categoria.trim().toLowerCase(),
         imagen: urlImagen
       };
 
       if (productoAEditar) {
+        // Actualizamos la base de datos 
         const docRef = doc(db, "productos", productoAEditar.id);
         await updateDoc(docRef, datosAEnviar);
 
         alert("¡Producto actualizado con éxito!");
-
+        // Actualizamos la lista de productos en el panel
         if (onProductoAgregado) {
           onProductoAgregado({ id: productoAEditar.id, ...datosAEnviar }, true);
         }
+
       } else {
         const docRef = await addDoc(collection(db, "productos"), datosAEnviar);
 
