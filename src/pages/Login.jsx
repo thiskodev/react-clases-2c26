@@ -1,31 +1,26 @@
 import { useState } from "react";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+import { useAuth } from "../context/AuthContext"; 
 
 const Login = () => {
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  
+  const { login } = useAuth(); 
 
-  const manejarLogin = (evento) => {
+  const manejarLogin = async (evento) => {
     evento.preventDefault();
-    const auth = getAuth();
-
-    signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        const user = userCredential.user;
-        console.log("Usuario logueado:", user);
-        alert("¡Inicio de sesión exitoso!");
-        navigate("/"); 
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.error("Error en el login:", errorCode, errorMessage);
-        alert("Error: " + errorMessage);
-      });
+    try {
+      await login(email, password);
+      alert("¡Inicio de sesión exitoso!");
+      navigate("/");
+    } catch (error) {
+      console.error("Error en el login:", error.code, error.message);
+      alert("Error: " + error.message);
+    }
   };
+
   return (
     <div>
       <h2>Iniciar Sesión</h2>
@@ -36,7 +31,6 @@ const Login = () => {
           value={email}
           onChange={(evento) => setEmail(evento.target.value)}
         />
-
         <input
           type="password"
           placeholder="Contraseña"
@@ -44,6 +38,8 @@ const Login = () => {
           onChange={(evento) => setPassword(evento.target.value)}
         />
         <button type="submit">Ingresar</button>
+        <br/>
+        No estás registrado? <Link to="/registro">Regístrate</Link>
       </form>
     </div>
   );
