@@ -33,6 +33,58 @@
   align-items: center;
 }
 
+/* Contenedor del buscador */
+.searchForm {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 280px;
+}
+
+/* Caja de texto */
+.searchInput {
+  width: 100%;
+  padding: 8px 34px 8px 14px; /* Espacio extra a la derecha para la X */
+  font-size: 0.95rem;
+  color: #333;
+  background-color: #f4f6f8;
+  border: 1px solid #d1d5db;
+  border-radius: 20px;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+.searchInput::placeholder {
+  color: #888;
+}
+
+.searchInput:focus {
+  background-color: #fff;
+  border-color: #2e7d32; /* Verde frutería (podés cambiarlo al color de tu marca) */
+  box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.15);
+}
+
+/* Botón X para limpiar el texto */
+.clearButton {
+  position: absolute;
+  right: 10px;
+  background: transparent;
+  border: none;
+  color: #666;
+  font-size: 0.9rem;
+  cursor: pointer;
+  padding: 2px 6px;
+  border-radius: 50%;
+  line-height: 1;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.clearButton:hover {
+  background-color: #e5e7eb;
+  color: #111;
+}
+
 @media (max-width: 600px) {
   .headerContainer {
     flex-direction: column;

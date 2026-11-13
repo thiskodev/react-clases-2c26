@@ -10,6 +10,7 @@ import {
 } from "firebase/auth";
 
 export const AuthContext = createContext();
+
 // Custom Hook
 export const useAuth = () => {
   const context = useContext(AuthContext);
