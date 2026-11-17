@@ -2,6 +2,7 @@ import Nav from "./Nav";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import { useSearch } from "../../context/SearchContext";
+import { useCarrito } from '../../context/CarritoContext';
 import styles from "./Header.module.css";
 import SearchIcon from "../../assets/icons/SearchIcon";
 
@@ -9,6 +10,8 @@ const Header = () => {
 
   const { user, logout } = useAuth();
   const { busqueda, setBusqueda } = useSearch();
+  const { itemsEnCarrito } = useCarrito();
+  const totalItems = itemsEnCarrito();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -77,6 +80,11 @@ const Header = () => {
               </li>
             )}
           </ul>
+        </div>
+        <div>
+          <Link to="/carrito">🛒 {totalItems > 0 &&
+            <span>{totalItems}</span>}
+          </Link>
         </div>
       </header>
     </div>
