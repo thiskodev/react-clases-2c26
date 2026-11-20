@@ -1,0 +1,57 @@
+.contenedorPaginacion {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin-top: 24px;
+  padding: 12px 0;
+  user-select: none;
+}
+
+.botonPagina {
+  min-width: 38px;
+  height: 38px;
+  padding: 0 10px;
+  border: 1px solid #d1d5db;
+  background-color: #ffffff;
+  color: #374151;
+  font-size: 0.95rem;
+  font-weight: 500;
+  border-radius: 8px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease-in-out;
+}
+
+.botonPagina:hover:not(:disabled) {
+  background-color: #f3f4f6;
+  border-color: #9ca3af;
+  color: #111827;
+}
+
+.paginaActiva {
+  background-color: #111827;
+  border-color: #111827;
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.paginaActiva:hover:not(:disabled) {
+  background-color: #1f2937;
+  color: #ffffff;
+}
+
+.botonFlecha {
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.botonPagina:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  background-color: #f9fafb;
+  border-color: #e5e7eb;
+  color: #9ca3af;
+}

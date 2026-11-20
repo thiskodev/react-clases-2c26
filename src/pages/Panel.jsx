@@ -1,37 +1,39 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { db } from '../firebase/config';
-import { collection, getDocs, deleteDoc, doc } from 'firebase/firestore';
+import { deleteDoc, doc } from 'firebase/firestore';
 import FormProductContainer from '../components/products/FormProductoContainer';
 import Cupon from '../components/Cupon';
+import Paginacion from '../components/Paginacion';
+import { usePaginacion } from '../hooks/usePaginacion';
 import styles from './Panel.module.css';
 
 const Panel = () => {
   const [tabActivo, setTabActivo] = useState('productos');
-  const [productos, setProductos] = useState([]);
   const [productoAEditar, setProductoAEditar] = useState(null);
   const [modalAbierto, setModalAbierto] = useState(false);
 
-  // Carga inicial de productos desde Firestore
-  useEffect(() => {
-    const fetchProductos = async () => {
-      try {
-        const productosRef = collection(db, "productos");
-        const resp = await getDocs(productosRef);
-        setProductos(resp.docs.map(doc => ({ ...doc.data(), id: doc.id })));
-      } catch (error) {
-        console.error("Error al obtener los productos:", error);
-      }
-    };
-
-    fetchProductos();
-  }, []);
+  const {
+    elementos: productos,
+    setElementos: setProductos,
+    paginaActual,
+    totalPaginas,
+    cargando,
+    irAPagina,
+    recargar,
+  } = usePaginacion({
+    db,
+    nombreColeccion: 'productos',
+    tamanoPagina: 2,
+    campoOrden: 'nombre',
+    direccionOrden: 'asc',
+  });
 
   const eliminarProducto = async (id) => {
     if (!window.confirm("¿Está seguro de que desea eliminar este producto?")) return;
 
     try {
       await deleteDoc(doc(db, "productos", id));
-      setProductos(prev => prev.filter((prod) => prod.id !== id));
+      recargar();
     } catch (error) {
       console.error("Error al eliminar el producto:", error);
       alert("Hubo un error al intentar eliminar el producto.");
@@ -55,9 +57,11 @@ const Panel = () => {
 
   const handleProductoGuardado = (productoGuardado, esEdicion) => {
     if (esEdicion) {
-      setProductos(prev => prev.map(p => p.id === productoGuardado.id ? productoGuardado : p));
+      setProductos((prev) =>
+        prev.map((p) => (p.id === productoGuardado.id ? productoGuardado : p))
+      );
     } else {
-      setProductos(prev => [...prev, productoGuardado]);
+      recargar();
     }
     cerrarModal();
   };
@@ -92,7 +96,9 @@ const Panel = () => {
             </button>
           </div>
 
-          {productos.length === 0 ? (
+          {cargando && productos.length === 0 ? (
+            <p className={styles.emptyText}>Cargando productos...</p>
+          ) : productos.length === 0 ? (
             <p className={styles.emptyText}>No hay productos cargados todavía.</p>
           ) : (
             <div className={styles.tableContainer}>
@@ -107,7 +113,7 @@ const Panel = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {productos.map(prod => (
+                  {productos.map((prod) => (
                     <tr key={prod.id}>
                       <td>
                         <img 
@@ -139,6 +145,14 @@ const Panel = () => {
               </table>
             </div>
           )}
+
+          {/* Barra de paginacion */}
+          <Paginacion
+            paginaActual={paginaActual}
+            totalPaginas={totalPaginas}
+            alCambiarPagina={irAPagina}
+            deshabilitado={cargando}
+          />
         </section>
       )}
 
@@ -151,7 +165,7 @@ const Panel = () => {
       {/* Modal para agregar o editar producto */}
       {modalAbierto && (
         <div className={styles.modalOverlay} onClick={cerrarModal}>
-          <div className={styles.modalContent} onClick={e => e.stopPropagation()}>
+          <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
             <div className={styles.modalHeader}>
               <h3 className={styles.sectionTitle}>
                 {productoAEditar ? 'Editar Producto' : 'Agregar Nuevo Producto'}
@@ -162,7 +176,9 @@ const Panel = () => {
             <FormProductContainer 
               productoAEditar={productoAEditar} 
               setProductoAEditar={setProductoAEditar}
-              onProductoAgregado={(producto, esEdicion) => handleProductoGuardado(producto, esEdicion)} 
+              onProductoAgregado={(producto, esEdicion) =>
+                handleProductoGuardado(producto, esEdicion)
+              } 
             />
           </div>
         </div>
