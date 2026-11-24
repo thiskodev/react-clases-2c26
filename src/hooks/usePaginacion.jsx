@@ -9,7 +9,7 @@ import {
   getCountFromServer,
 } from 'firebase/firestore';
 
-const usePaginacion = ({
+export const usePaginacion = ({
   db,
   nombreColeccion,
   tamanoPagina = 6,
@@ -111,7 +111,7 @@ const usePaginacion = ({
 
         setElementos(listaProductos);
 
-        // Guardamos cual fue el último documento de esta página por si después vamos a la siguiente
+        // Guardamos cual fue el último producto de esta página por si después vamos a la siguiente
         if (snapshot.docs.length > 0) {
           const ultimoDocDeEstaPagina = snapshot.docs[snapshot.docs.length - 1];
           setUltimosDocs((anteriores) => ({
@@ -151,5 +151,3 @@ const usePaginacion = ({
     recargar,
   };
 };
-
-export default usePaginacion;
